@@ -3,6 +3,7 @@
     <NavBar/>
     <Search/>
     <Login/>
+    <Resenya/>
     <router-view/>
   </div>
   
@@ -18,6 +19,7 @@ export default {
     NavBar,
     Search,
     Login,
+    Resenya,
 
   }
 
