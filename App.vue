@@ -2,6 +2,7 @@
   <div id="app">
     <NavBar/>
     <Search/>
+    <Login/>
     <router-view/>
   </div>
   
@@ -9,6 +10,8 @@
 
 <script>
 import NavBar from './components/NavBar.vue';
+import Search from './components/Search.vue';
+import Login from './components/Login.vue'
 export default {
   name: 'App',
   components: {
