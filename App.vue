@@ -12,7 +12,8 @@
 <script>
 import NavBar from './components/NavBar.vue';
 import Search from './components/Search.vue';
-import Login from './components/Login.vue'
+import Login from './components/Login.vue';
+import Resenya from './components/Resenya.vue';
 export default {
   name: 'App',
   components: {
