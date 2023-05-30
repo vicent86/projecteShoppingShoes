@@ -16,6 +16,8 @@ export default {
   name: 'App',
   components: {
     NavBar,
+    Search,
+    Login,
 
   }
 
