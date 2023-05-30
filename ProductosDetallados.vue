@@ -3,14 +3,14 @@
         <div id="img-wrap">
             <img v-bind:src="producto.imagen" />
         </div>
-        <div id="products-details">
+        <div id="products-details" class="q-pa-md q-gutter-sm">
             <h1>{{ producto.nombre }}</h1>
             <h3 id="price">{{ producto.precio }}</h3>
             <p>Puntuación Media: {{ producto.PuntacionMedia }}</p>
-            <button class="add-to-cart" 
+            <q-btn  color ="black" label="Añadir al carro" class="add-to-cart" 
               v-on:click="addProduct"
               
-            >Añadir al carro</button>
+            />
             <h4>Descripción</h4>
             <p>{{ producto.descripcion }}</p>
         </div>
@@ -90,10 +90,5 @@ top: 74px;
 right: 16px;
 }
 
-button {
-width: 100%;
-background: black;
-color: white;
-}
 </style>
   

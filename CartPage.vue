@@ -3,7 +3,7 @@
         <h1>Carrito de la compra</h1>
         <ListaProductos :productos="cartItems" />
         <h3 id="total-price">Total a pagar: {{ totalPrice }} € </h3>
-        <button id="checkout-button">Procede a realizar la Compra</button>
+        <q-btn id="checkout-button" label="Procede a realizar la Compra" color="black"/>
     </div>
 </template>
 

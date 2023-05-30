@@ -4,7 +4,11 @@
             <h1>CALZADO FANTASTICO</h1>
         </router-link>
         <router-link to="/carrito" id="carrito-link">
-            <button>Carrito de la compra</button>
+            <q-btn 
+                icon="shopping_cart"
+                label="Carrito de la Compra"
+                class="boton"
+            /> 
         </router-link>
     </div>
 </template>

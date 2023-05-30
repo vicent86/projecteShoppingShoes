@@ -6,7 +6,7 @@
                 <h3>{{ producto.nombre }}</h3>
                 <p>{{ producto.precio }}</p>
             </div>
-            <button class="remove-button" @click="removeFromCart(producto.id)">Eliminar Compra</button>
+            <q-btn class="remove-button" @click="removeFromCart(producto.id)" color="black" label="Eliminar Compra"/>
         </div>
     </div>
 </template>

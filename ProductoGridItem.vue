@@ -5,7 +5,7 @@
         <h3 class="product-name">{{ producto.nombre }}</h3>
         <p class="product-price">{{ producto.precio }}</p>
         <router-link v-bind:to="'/productos/' + producto.id">
-            <button>Ver Detalles</button>
+            <q-btn color="black" label="Ver Detalles" />
         </router-link>
     </div>
 </template>
@@ -41,12 +41,6 @@ img {
 
 a {
     width: 100%;
-}
-
-button {
-    width: 100%;
-    background: black;
-    color: white;
 }
 
 </style>
