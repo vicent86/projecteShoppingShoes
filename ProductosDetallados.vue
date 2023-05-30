@@ -55,7 +55,6 @@
           console.log(response);
           if (response.status === 200) {
             this.$router.push('/carrito');
-            this.$router.push(`/productos/${productoId}`);
             alert('Producto añadido al carrito');
           } else {
             alert('Producto no encontrado');
