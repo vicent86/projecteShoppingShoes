@@ -29,30 +29,31 @@ export default {
   data() {
     return {
       producto: null,
+      productoId: null,
+      usuarioId: null,
     };
   },
   async created() {
-    const productoId = this.$route.params.productoId;
-    let productoData = null;
+    this.productoId = this.$route.params.productoId;
+    this.usuarioId = this.$route.params.usuarioId;
     try {
       const response = await axios.get(`/api/productos/${productoId}`);
       productoData = response.data;
     } catch (error) {
       console.error(error);
     }
-    this.producto = productoData;
+    
   },
   methods: {
     async addProduct() {
-      const usuarioId = this.$route.params.usuarioId;
-      const productoId = this.$route.params.productoId;
-     
+
       try {
-        const result = await axios.post(`/api/usuarios/${usuarioId}/carrito`, {
-          productoId: productoId,
-          usuarioId: usuarioId,
+        const result = await axios.post(`/api/usuarios/${this.usuarioId}/carrito`, {
+          productoId: this.productoId,
+          usuarioId: this.usuarioId,
          
         });
+
         if (result.status === 200) {
           this.$router.push('/carrito');
           alert('Producto añadido al carrito');

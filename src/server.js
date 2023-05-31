@@ -21,7 +21,10 @@ mongoose.connection.on('error', (error) => {
 
 //Definim el esquema
 const ProductSchema = new mongoose.Schema({
-    id: String,
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    auto: true,
+  },
     nombre: String,
     precio: String,
     descripcion: String,
@@ -30,7 +33,10 @@ const ProductSchema = new mongoose.Schema({
 });
 
 const UserSchema = new mongoose.Schema({
-    id: String,
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    auto: true,
+  },
     cartItems:Array,
 });
 
@@ -72,57 +78,57 @@ app.get('/api/usuarios/:usuarioId/carrito', async (req, res) => {
   
   
 app.get('/api/productos/:productoId', async (req,res) => {
-    const { productoId } = req.params;
-    try {
-      const producto = await Producto.findOne({ id: productoId});
-      console.log(producto);
-      if (producto) {
-          res.status(200).json(producto);
-      } else {
-          res.status(404).json({
-              message: 'No se encontro el producto'
-          });
-      }
-    } catch (error) {
-      res.status(500).json({
-        error: 'Error al obtener el producto'
-      });
+  const { productoId } = req.params;
+  try {
+    const producto = await Producto.findOne({ id: productoId});
+    console.log(producto);
+    if (producto) {
+        res.status(200).json(producto);
+    } else {
+        res.status(404).json({
+            message: 'No se encontro el producto'
+        });
     }
+  } catch (error) {
+    res.status(500).json({
+      error: 'Error al obtener el producto'
+    });
+  }
 
 });
 
 app.post('/api/usuarios/:usuarioId/carrito', async (req, res) => {
-    const { usuarioId, productoId} = req.params;
-  
-    if (!mongoose.Types.ObjectId.isValid(productoId)) {
-      return res.status(400).json({ error: 'productoId no válido' });
+  const { usuarioId, productoId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(productoId)) {
+    return res.status(400).json({ error: 'productoId no válido' });
+  }
+
+  try {
+    // Verificar si el usuario existe
+    const usuario = await Usuario.findById(usuarioId);
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
     }
-  
-    try {
-      // Verificar si el usuario existe
-      const usuario = await Usuario.findById(usuarioId);
-      if (!usuario) {
-        return res.status(404).json({ error: 'Usuario no encontrado' });
-      }
-  
-      // Verificar si el producto existe
-      const producto = await Producto.findById(productoId);
-      if (!producto) {
-        return res.status(404).json({ error: 'Producto no encontrado' });
-      }
-  
-      // Actualizar el carrito del usuario
-      usuario.cartItems.push(productoId);
-      await usuario.save();
-  
-      // Obtener los productos del carrito
-      const cartItems = await Producto.find({ _id: { $in: usuario.cartItems } });
-  
-      res.status(200).json(cartItems);
-    } catch (error) {
-      console.error('Error al agregar el producto al carrito:', error);
-      res.status(500).json({ error: 'Error interno del servidor' });
+
+    // Verificar si el producto existe
+    const producto = await Producto.findById(productoId);
+    if (!producto) {
+      return res.status(404).json({ error: 'Producto no encontrado' });
     }
+
+    // Actualizar el carrito del usuario
+    usuario.cartItems.push(productoId);
+    await usuario.save();
+
+    // Obtener los productos del carrito
+    const cartItems = await Producto.find({ _id: { $in: usuario.cartItems } });
+
+    res.status(200).json(cartItems);
+  } catch (error) {
+    console.error('Error al agregar el producto al carrito:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
 });
 
 app.delete('/api/usuarios/:usuarioId/carrito/:productoId', async (req, res) => {
