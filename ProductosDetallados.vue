@@ -46,7 +46,6 @@ export default {
   },
   methods: {
     async addProduct() {
-
       try {
         const result = await axios.post(`/api/usuarios/${this.usuarioId}/carrito`, {
           productoId: this.productoId,
