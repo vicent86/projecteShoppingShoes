@@ -17,7 +17,7 @@
   
 <script>
   export default {
-    name: 'MiComponente',
+    name: 'Search',
     data() {
       return {
         busqueda: ''

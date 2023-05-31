@@ -151,8 +151,6 @@ app.delete('/api/usuarios/:usuarioId/carrito/:productoId', async (req, res) => {
 });
   
   
-  
-  
 app.listen(8000, () => {
     console.log('El servidor está escuchando el puerto indicado!');
 });
