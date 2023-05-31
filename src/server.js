@@ -40,9 +40,20 @@ const UserSchema = new mongoose.Schema({
     cartItems:Array,
 });
 
+const RegistroSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    auto: true,
+  },
+    nombre: String,
+    correo: String,
+    password: String,
+});
+
 //Definim el model
 const Producto = mongoose.model('Producto', ProductSchema);
 const Usuario = mongoose.model('Usuarios', UserSchema);
+const Registro = mongoose.model('Registros', RegistroSchema);
 
 
 const app = express();
@@ -97,7 +108,7 @@ app.get('/api/productos/:productoId', async (req,res) => {
 
 });
 
-app.post('/api/usuarios/:usuarioId/carrito', async (req, res) => {
+app.post('/api/usuarios/:usuarioId/carrito/', async (req, res) => {
   const { usuarioId, productoId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(productoId)) {
@@ -131,6 +142,17 @@ app.post('/api/usuarios/:usuarioId/carrito', async (req, res) => {
   }
 });
 
+app.post('/api/registro', async (req, res) => {
+  const registro = new Registro(req.body);
+  try {
+    const registroGuardado = await registro.save();
+    res.status(201).json(registroGuardado);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al guardar el registro' });
+  }
+      
+});
+
 app.delete('/api/usuarios/:usuarioId/carrito/:productoId', async (req, res) => {
     const { productoId } = req.params;
     const { usuarioId } = req.params;
@@ -149,6 +171,8 @@ app.delete('/api/usuarios/:usuarioId/carrito/:productoId', async (req, res) => {
     
     res.status(200).json(cartItems);
 });
+  
+  
   
   
 app.listen(8000, () => {
