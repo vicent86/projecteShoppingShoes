@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import axios from 'axios';
 
 export default {
   name: 'Registros', // Mantén el nombre del componente como "RegistrosUsuarios"
@@ -35,7 +35,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['cargarproductos', 'login']),
+    
     goToLogin() {
       // Redirigir a la página de registro
       this.$router.push('/registro');
@@ -54,12 +54,23 @@ export default {
         return;
       }
       // Enviar datos
-      this.$store.dispatch('login', {
+      const usuario = {
         nombre: this.nombre,
         correo: this.correo,
         password: this.password,
+      };
+
+      axios.post('/api/registros', usuario)
+      .then(response => {
+        // Manejar la respuesta del servidor
+        console.log('Usuario registrado:', response.data);
+        this.$store.commit('setsubmitLogin', response.data);
+      })
+      .catch(error => {
+        // Manejar el error de la solicitud
+        console.error('Error al registrar el usuario:', error);
       });
-      
+        
     }, 
   },  
   

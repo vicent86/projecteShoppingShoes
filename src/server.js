@@ -142,7 +142,7 @@ app.post('/api/usuarios/:usuarioId/carrito/', async (req, res) => {
   }
 });
 
-app.post('/api/registro', async (req, res) => {
+app.post('/api/registros', async (req, res) => {
   const registro = new Registro(req.body);
   try {
     const registroGuardado = await registro.save();
