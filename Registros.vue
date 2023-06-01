@@ -35,7 +35,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['registro']),
+    ...mapActions(['cargarproductos', 'login']),
     goToLogin() {
       // Redirigir a la página de registro
       this.$router.push('/registro');
