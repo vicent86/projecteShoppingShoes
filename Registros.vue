@@ -21,7 +21,7 @@
 </template>
 
 <script>
-
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Registros', // Mantén el nombre del componente como "RegistrosUsuarios"
@@ -35,7 +35,7 @@ export default {
     };
   },
   methods: {
-    
+    ...mapActions(['registro']),
     goToLogin() {
       // Redirigir a la página de registro
       this.$router.push('/registro');
