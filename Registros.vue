@@ -15,7 +15,7 @@
         v-model="confirmarPassword"
         required
       />
-      <button type="submit">Enviar</button>
+      <button type="submit" @click="submitForm">Enviar</button>
     </form>
   </div>
 </template>
@@ -36,42 +36,20 @@ export default {
   },
   methods: {
     
-    goToLogin() {
-      // Redirigir a la página de registro
-      this.$router.push('/registro');
+    async submitForm() {
+      try{
+        const response = await axios.post('api/registros', {
+          nombre: this.nombre,
+          correo: this.correo,
+          password: this.password,
+        });
+        // Obtener el usuarioId devuelto por la API
+        const usuarioId = response.data._id;
+        this.usuarioId = usuarioId;
+      }catch(error){
+        alert(error);
+      }
     },
-    submitLogin(event) {
-      event.preventDefault();
-
-      // Validar campos
-      if (this.nombre.trim() === '') {
-        alert('Por favor, ingrese su nombre.');
-        return;
-      }
-
-      if (this.password !== this.confirmarPassword) {
-        alert('Las contraseñas no coinciden.');
-        return;
-      }
-      // Enviar datos
-      const usuario = {
-        nombre: this.nombre,
-        correo: this.correo,
-        password: this.password,
-      };
-
-      axios.post('/api/registros', usuario)
-      .then(response => {
-        // Manejar la respuesta del servidor
-        console.log('Usuario registrado:', response.data);
-        this.$store.commit('setsubmitLogin', response.data);
-      })
-      .catch(error => {
-        // Manejar el error de la solicitud
-        console.error('Error al registrar el usuario:', error);
-      });
-        
-    }, 
   },  
   
 };

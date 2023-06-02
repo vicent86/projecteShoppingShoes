@@ -32,13 +32,13 @@ const ProductSchema = new mongoose.Schema({
     PuntacionMedia: String,
 });
 
-const UserSchema = new mongoose.Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    auto: true,
-  },
-    cartItems:Array,
-});
+// const UserSchema = new mongoose.Schema({
+//   _id: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     auto: true,
+//   },
+//     cartItems:Array,
+// });
 
 const RegistroSchema = new mongoose.Schema({
   _id: {
@@ -48,12 +48,13 @@ const RegistroSchema = new mongoose.Schema({
     nombre: String,
     correo: String,
     password: String,
+    cartItems: Array,
 });
 
 //Definim el model
 const Producto = mongoose.model('Producto', ProductSchema);
-const Usuario = mongoose.model('Usuarios', UserSchema);
-const Registro = mongoose.model('Registros', RegistroSchema);
+const Usuario = mongoose.model('Usuarios', RegistroSchema);
+//const Registro = mongoose.model('Registros', RegistroSchema);
 
 
 const app = express();
@@ -143,14 +144,37 @@ app.post('/api/usuarios/:usuarioId/carrito/', async (req, res) => {
 });
 
 app.post('/api/registros', async (req, res) => {
-  const registro = new Registro(req.body);
+  const { nombre, correo, password } = req.body;
   try {
-    const registroGuardado = await registro.save();
-    res.status(201).json(registroGuardado);
+    const usuario = new Usuario( { nombre, correo, password, cartItems : [] });
+    const usuarioGuardado = await usuario.save();
+    res.status(201).json(usuarioGuardado);
   } catch (error) {
     res.status(500).json({ error: 'Error al guardar el registro' });
   }
       
+});
+
+app.post('/api/login', async (req, res) => {
+  const { correo, password } = req.body;
+  try{
+    const result = await db.collection('usuarios').findOne({
+      correo: correo,
+      password: password,
+    });
+
+    if (result) {
+      // Las credenciales son válidas, el usuario y contraseña coinciden en el mismo documento
+      console.log('Credenciales válidas');
+    } else {
+      // Las credenciales no son válidas, el usuario y contraseña no coinciden en el mismo documento
+      console.log('usuario no registrado');
+    }
+
+  }catch(error) {
+    res.status(500).json( { error: 'Error de inicio de sesión '});
+  }
+
 });
 
 app.delete('/api/usuarios/:usuarioId/carrito/:productoId', async (req, res) => {
